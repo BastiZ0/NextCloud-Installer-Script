@@ -1,6 +1,16 @@
 # Nextcloud Installationsskript für Ubuntu/Debian
 
-Dieses Skript automatisiert die Installation und Erstkonfiguration von Nextcloud auf einem Ubuntu- oder Debian-System.
+Dieses Skript automatisiert die Installation und Erstkonfiguration von Nextcloud auf einem Ubuntu- oder Debian-System oder richtet einen LXC auf dem Proxmox VE ein.
+
+
+Direkte Einrichtung LXC und Nextcloud 
+
+    curl -fsSL https://github.com/BastiZ0/NextCloud-Installer-Script/raw/main/install_nextcloud_lxc.sh | sudo bash
+
+Im Host System ausführen!
+
+
+"Manuelle Installation"
 
 ### Voraussetzungen
 
