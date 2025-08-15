@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktive Nextcloud Installationsanleitung</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Slate Gray with a Blue accent -->
+    <!-- Application Structure Plan: A single-page application with a tab-based navigation to guide users through the installation process step-by-step. This structure is more intuitive than a long scrolling document. The core interactive feature is the "copy to clipboard" button for each command, which significantly improves usability for a technical guide. Content is provided in both German and English, with a language toggle for switching. -->
+    <!-- Visualization & Content Choices: The content is procedural, so traditional charts are not applicable. Instead, the information is structured using clear headings, lists, and distinct code blocks. Icons (Unicode emojis) are used to visually represent different types of information (e.g., prerequisites, steps, post-installation tasks). The main interaction is functional (copying commands), not data-driven. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .code-block {
+            position: relative;
+        }
+        .copy-button {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: #4A5568;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .copy-button:hover {
+            opacity: 1;
+        }
+        .nav-link.active {
+            border-bottom-color: #3B82F6;
+            color: #3B82F6;
+        }
+        main > section {
+            display: none;
+        }
+        main > section.active {
+            display: block;
+        }
+        .lang-container {
+            display: none;
+        }
+        .lang-container.active {
+            display: block;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto max-w-4xl p-4 sm:p-6 md:p-8">
+        <div class="flex justify-end mb-4">
+            <select id="language-switcher" class="p-2 border border-slate-300 rounded-md bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="de">Deutsch</option>
+                <option value="en">English</option>
+            </select>
+        </div>
+        
+        <!-- German Content -->
+        <div id="lang-de" class="lang-container active">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Nextcloud Installationsskript</h1>
+                <p class="text-slate-600 mt-2">Eine interaktive Anleitung für die Installation auf Ubuntu/Debian.</p>
+            </header>
+
+            <nav class="flex flex-wrap justify-center border-b border-slate-200 mb-8">
+                <a href="#vorbereitung-de" class="nav-link active text-slate-600 py-4 px-4 sm:px-6 block hover:text-blue-500 focus:outline-none border-b-2 font-medium border-transparent">
+                    Vorbereitung
+                </a>
+                <a href="#installation-de" class="nav-link text-slate-600 py-4 px-4 sm:px-6 block hover:text-blue-500 focus:outline-none border-b-2 font-medium border-transparent">
+                    Installation
+                </a>
+                <a href="#nach-der-installation-de" class="nav-link text-slate-600 py-4 px-4 sm:px-6 block hover:text-blue-500 focus:outline-none border-b-2 font-medium border-transparent">
+                    Nächste Schritte
+                </a>
+            </nav>
+
+            <main>
+                <section id="vorbereitung-de" class="active space-y-6">
+                    <h2 class="text-2xl font-semibold text-slate-900 border-b pb-2">📋 Voraussetzungen</h2>
+                    <p>Bevor du beginnst, stelle sicher, dass die folgenden Punkte erfüllt sind. Diese Anleitung richtet sich an eine saubere Systemumgebung.</p>
+                    <ul class="list-disc list-inside space-y-2 bg-slate-100 p-4 rounded-lg">
+                        <li>Ein <strong>frisches Ubuntu- oder Debian-System</strong> (Server-Version empfohlen). Es sollte noch keine existierende Nextcloud-, Apache- oder MariaDB-Installation haben.</li>
+                        <li><strong>Zugriff auf die Konsole</strong> (entweder direkt oder über SSH).</li>
+                        <li>Du musst über <strong>`sudo`-Rechte</strong> verfügen, um Systembefehle ausführen zu können.</li>
+                    </ul>
+                </section>
+
+                <section id="installation-de" class="space-y-8">
+                    <h2 class="text-2xl font-semibold text-slate-900 border-b pb-2">🚀 Schritt-für-Schritt Installation</h2>
+                    
+                    <div class="step">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-2">Schritt 1: Das Skript herunterladen</h3>
+                        <p class="mb-4">Zuerst navigieren wir in das Verzeichnis `/opt`, einen empfohlenen Ort für zusätzliche Software. Dann laden wir das Installationsskript von GitHub herunter.</p>
+                        <div class="code-block bg-slate-900 text-white p-4 rounded-lg font-mono text-sm">
+                            <button class="copy-button">Kopieren</button>
+                            <pre><code>cd /opt
+sudo wget https://github.com/BastiZ0/NextCloud-Installer-Script/raw/main/install_nextcloud.sh</code></pre>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2">*Hinweis: Die `.raw`-Endung in der URL stellt sicher, dass du die reine Skriptdatei herunterlädst.*</p>
+                    </div>
+
+                    <div class="step">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-2">Schritt 2: Skript ausführbar machen</h3>
+                        <p class="mb-4">Damit das System die heruntergeladene Datei als Programm ausführen kann, müssen wir die entsprechenden Berechtigungen setzen.</p>
+                        <div class="code-block bg-slate-900 text-white p-4 rounded-lg font-mono text-sm">
+                            <button class="copy-button">Kopieren</button>
+                            <pre><code>sudo chmod +x install_nextcloud.sh</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-2">Schritt 3: Skript ausführen</h3>
+                        <p class="mb-4">Starte nun das Skript. Es ist interaktiv und wird dich durch die Konfiguration führen, indem es nach notwendigen Informationen fragt und vor jedem größeren Schritt eine Bestätigung anfordert.</p>
+                        <div class="code-block bg-slate-900 text-white p-4 rounded-lg font-mono text-sm">
+                            <button class="copy-button">Kopieren</button>
+                            <pre><code>sudo ./install_nextcloud.sh</code></pre>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2"><strong>Wichtig:</strong> Folge den Anweisungen im Terminal genau und gib die benötigten Informationen (Hostname, Passwörter etc.) ein, wenn du dazu aufgefordert wirst.</p>
+                    </div>
+                </section>
+
+                <section id="nach-der-installation-de" class="space-y-6">
+                    <h2 class="text-2xl font-semibold text-slate-900 border-b pb-2">🛠️ Was nach der Installation zu tun ist</h2>
+                    <p>Dein Nextcloud-Server ist jetzt voll funktionsfähig, aber es gibt noch ein paar wichtige Schritte für die Sicherheit und Leistung, die du manuell durchführen musst.</p>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                        <h3 class="text-lg font-semibold text-slate-800">1. HTTPS einrichten (Sehr empfohlen!)</h3>
+                        <p class="mt-2 text-slate-600">Die Installation erfolgt standardmäßig über HTTP. Für eine sichere Verbindung ist HTTPS unerlässlich. Wenn du nur lokal oder über VPN zugreifst, kannst du ein <strong>selbstsigniertes Zertifikat</strong> erstellen. Dein Browser wird dann zwar eine Warnung anzeigen, die Verbindung ist aber verschlüsselt.</p>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                        <h3 class="text-lg font-semibold text-slate-800">2. E-Mail-Serverkonfiguration</h3>
+                        <p class="mt-2 text-slate-600">Damit Nextcloud Benachrichtigungen senden kann, musst du deine E-Mail-Einstellungen in der Weboberfläche unter <strong>Einstellungen > Grundeinstellungen > E-Mail-Server</strong> vornehmen.</p>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                        <h3 class="text-lg font-semibold text-slate-800">3. Caching konfigurieren (für Performance)</h3>
+                        <p class="mt-2 text-slate-600">Für eine bessere Leistung wird empfohlen, einen Speichercache wie <strong>Redis</strong> oder <strong>Memcache</strong> zu verwenden. Dies beschleunigt Dateisperren und Datenbankabfragen erheblich. Eine Anleitung dazu findest du in der <a href="https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/caching_configuration.html" target="_blank" class="text-blue-500 hover:underline">offiziellen Nextcloud-Dokumentation</a>.</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- English Content -->
+        <div id="lang-en" class="lang-container">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Nextcloud Installation Script</h1>
+                <p class="text-slate-600 mt-2">An interactive guide for installing Nextcloud on Ubuntu/Debian.</p>
+            </header>
+
+            <nav class="flex flex-wrap justify-center border-b border-slate-200 mb-8">
+                <a href="#prerequisites-en" class="nav-link active text-slate-600 py-4 px-4 sm:px-6 block hover:text-blue-500 focus:outline-none border-b-2 font-medium border-transparent">
+                    Prerequisites
+                </a>
+                <a href="#installation-en" class="nav-link text-slate-600 py-4 px-4 sm:px-6 block hover:text-blue-500 focus:outline-none border-b-2 font-medium border-transparent">
+                    Installation
+                </a>
+                <a href="#post-installation-en" class="nav-link text-slate-600 py-4 px-4 sm:px-6 block hover:text-blue-500 focus:outline-none border-b-2 font-medium border-transparent">
+                    Next Steps
+                </a>
+            </nav>
+
+            <main>
+                <section id="prerequisites-en" class="active space-y-6">
+                    <h2 class="text-2xl font-semibold text-slate-900 border-b pb-2">📋 Prerequisites</h2>
+                    <p>Before you begin, ensure the following conditions are met. This guide assumes a clean system environment.</p>
+                    <ul class="list-disc list-inside space-y-2 bg-slate-100 p-4 rounded-lg">
+                        <li>A <strong>fresh Ubuntu or Debian system</strong> (server version recommended). It should not have any existing Nextcloud, Apache, or MariaDB installations.</li>
+                        <li><strong>Console access</strong> (either direct or via SSH).</li>
+                        <li>You must have <strong>`sudo` privileges</strong> to execute system commands.</li>
+                    </ul>
+                </section>
+
+                <section id="installation-en" class="space-y-8">
+                    <h2 class="text-2xl font-semibold text-slate-900 border-b pb-2">🚀 Step-by-Step Installation</h2>
+                    
+                    <div class="step">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-2">Step 1: Download the Script</h3>
+                        <p class="mb-4">First, navigate to the `/opt` directory, a recommended location for additional software. Then, download the installation script from GitHub.</p>
+                        <div class="code-block bg-slate-900 text-white p-4 rounded-lg font-mono text-sm">
+                            <button class="copy-button">Copy</button>
+                            <pre><code>cd /opt
+sudo wget https://github.com/BastiZ0/NextCloud-Installer-Script/raw/main/install_nextcloud.sh</code></pre>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2">*Note: The `.raw` extension in the URL ensures you download the pure script file.*</p>
+                    </div>
+
+                    <div class="step">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-2">Step 2: Make the Script Executable</h3>
+                        <p class="mb-4">For your system to recognize the downloaded file as an executable program, you need to set the appropriate permissions.</p>
+                        <div class="code-block bg-slate-900 text-white p-4 rounded-lg font-mono text-sm">
+                            <button class="copy-button">Copy</button>
+                            <pre><code>sudo chmod +x install_nextcloud.sh</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-2">Step 3: Run the Script</h3>
+                        <p class="mb-4">Now, start the script. It is interactive and will guide you through the configuration, prompting for necessary information and requesting confirmation before each major step.</p>
+                        <div class="code-block bg-slate-900 text-white p-4 rounded-lg font-mono text-sm">
+                            <button class="copy-button">Copy</button>
+                            <pre><code>sudo ./install_nextcloud.sh</code></pre>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2"><strong>Important:</strong> Follow the instructions in the terminal carefully and enter the required information (hostname, passwords, etc.) when prompted.</p>
+                    </div>
+                </section>
+
+                <section id="post-installation-en" class="space-y-6">
+                    <h2 class="text-2xl font-semibold text-slate-900 border-b pb-2">🛠️ What to Do After Installation</h2>
+                    <p>Your Nextcloud server is now fully functional, but there are still a few important steps for security and performance that you must complete manually.</p>
+                    
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                        <h3 class="text-lg font-semibold text-slate-800">1. Set up HTTPS (Highly Recommended!)</h3>
+                        <p class="mt-2 text-slate-600">The installation defaults to HTTP access. For a secure connection, HTTPS is essential. If you are only accessing locally or via VPN, you can create a <strong>self-signed certificate</strong>. Your browser will display a warning, but the connection will still be encrypted.</p>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                        <h3 class="text-lg font-semibold text-slate-800">2. Email Server Configuration</h3>
+                        <p class="mt-2 text-slate-600">For Nextcloud to send notifications, you must configure your email settings in the web interface under <strong>Settings > Basic settings > Email server</strong>.</p>
+                    </div>
+
+                    <div class="bg-white p-4 rounded-lg shadow-sm">
+                        <h3 class="text-lg font-semibold text-slate-800">3. Configure Caching (for Performance)</h3>
+                        <p class="mt-2 text-slate-600">For better performance, it is recommended to use a memory cache such as <strong>Redis</strong> or <strong>Memcache</strong>. This significantly speeds up file locking and database queries. Instructions can be found in the <a href="https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/caching_configuration.html" target="_blank" class="text-blue-500 hover:underline">official Nextcloud documentation</a>.</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const languageSwitcher = document.getElementById('language-switcher');
+            const langContainers = document.querySelectorAll('.lang-container');
+            
+            function showLanguage(lang) {
+                langContainers.forEach(container => {
+                    if (container.id === `lang-${lang}`) {
+                        container.classList.add('active');
+                        // Re-activate first nav link for the new language
+                        const firstNavLink = container.querySelector('.nav-link');
+                        if (firstNavLink) {
+                           handleNavClick(firstNavLink, container);
+                        }
+                    } else {
+                        container.classList.remove('active');
+                    }
+                });
+            }
+
+            languageSwitcher.addEventListener('change', (event) => {
+                showLanguage(event.target.value);
+            });
+
+            function handleNavClick(link, container) {
+                const currentNavLinks = container.querySelectorAll('.nav-link');
+                const currentSections = container.querySelectorAll('main > section');
+
+                currentNavLinks.forEach(navLink => navLink.classList.remove('active'));
+                link.classList.add('active');
+
+                const targetId = link.getAttribute('href').substring(1);
+                
+                currentSections.forEach(section => {
+                    if (section.id === targetId) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+            }
+            
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const container = link.closest('.lang-container');
+                    handleNavClick(link, container);
+                });
+            });
+
+            // Initial language display
+            showLanguage(languageSwitcher.value);
+
+            // Copy to clipboard logic
+            const copyButtons = document.querySelectorAll('.copy-button');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const pre = button.nextElementSibling;
+                    const code = pre.querySelector('code');
+                    const textToCopy = code.innerText;
+
+                    const textArea = document.createElement('textarea');
+                    textArea.value = textToCopy;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    
+                    try {
+                        document.execCommand('copy');
+                        if (languageSwitcher.value === 'de') {
+                            button.innerText = 'Kopiert!';
+                        } else {
+                            button.innerText = 'Copied!';
+                        }
+                        button.style.backgroundColor = '#28a745'; // Green
+                    } catch (err) {
+                        console.error('Error copying:', err);
+                        if (languageSwitcher.value === 'de') {
+                            button.innerText = 'Fehler';
+                        } else {
+                            button.innerText = 'Error';
+                        }
+                        button.style.backgroundColor = '#E53E3E'; // Red
+                    }
+
+                    document.body.removeChild(textArea);
+
+                    setTimeout(() => {
+                        if (languageSwitcher.value === 'de') {
+                            button.innerText = 'Kopieren';
+                        } else {
+                            button.innerText = 'Copy';
+                        }
+                        button.style.backgroundColor = '#4A5568'; // Original Gray
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
