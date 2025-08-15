@@ -10,13 +10,15 @@ Dieses Skript automatisiert die Installation und Erstkonfiguration von Nextcloud
 
 ---
 
-### Interaktive Anleitung 
+### Interaktive Anleitung 🚀
 
-[**▶️ Zur Interaktiven Nextcloud Installationsanleitung**](https://BastiZ0.github.io/NextCloud_Installer/index.html)
+Für eine **detaillierte, schrittweise und interaktive Anleitung** zur Verwendung dieses Skripts besuche bitte unsere GitHub Pages-Seite:
+
+[**▶️ Zur Interaktiven Nextcloud Installationsanleitung**](https://BastiZ0.github.io/NextCloud-Installer-Script/index.html)
 
 ---
 
-### Erste Schritte 
+### Erste Schritte 🏃‍♂️
 
 Hier ist, wie du das Skript auf deinem System startest:
 
@@ -27,7 +29,7 @@ Hier ist, wie du das Skript auf deinem System startest:
 
 2.  **Lade das Skript herunter:**
     ```bash
-    sudo wget [https://github.com/BastiZ0/NextCloud_Installer/raw/main/install_nextcloud.sh](https://github.com/BastiZ0/NextCloud_Installer/raw/main/install_nextcloud.sh)
+    sudo wget [https://github.com/BastiZ0/NextCloud-Installer-Script/raw/main/install_nextcloud.sh](https://github.com/BastiZ0/NextCloud-Installer-Script/raw/main/install_nextcloud.sh)
     ```
 
 3.  **Mache das Skript ausführbar:**
@@ -58,7 +60,7 @@ Das Skript installiert und konfiguriert:
 * **E-Mail-Server:** In Nextcloud für Benachrichtigungen konfigurieren.
 * **Caching:** Für verbesserte Performance (optional).
 
-Weitere Details findest du in der [Interaktiven Anleitung](https://BastiZ0.github.io/NextCloud_Installer/index.html).
+Weitere Details findest du in der [Interaktiven Anleitung](https://BastiZ0.github.io/NextCloud-Installer-Script/index.html).
 
 ---
 
@@ -78,7 +80,7 @@ This script automates the installation and initial configuration of Nextcloud on
 
 For a **detailed, step-by-step, and interactive guide** on how to use this script, please visit our GitHub Pages site:
 
-[**▶️ Go to Interactive Nextcloud Installation Guide**](https://BastiZ0.github.io/NextCloud_Installer/index.html)
+[**▶️ Go to Interactive Nextcloud Installation Guide**](https://BastiZ0.github.io/NextCloud-Installer-Script/index.html)
 
 ---
 
@@ -93,7 +95,7 @@ Here's how to start the script on your system:
 
 2.  **Download the script:**
     ```bash
-    sudo wget [https://github.com/BastiZ0/NextCloud_Installer/raw/main/install_nextcloud.sh](https://github.com/BastiZ0/NextCloud_Installer/raw/main/install_nextcloud.sh)
+    sudo wget [https://github.com/BastiZ0/NextCloud-Installer-Script/raw/main/install_nextcloud.sh](https://github.com/BastiZ0/NextCloud-Installer-Script/raw/main/install_nextcloud.sh)
     ```
 
 3.  **Make the script executable:**
@@ -124,4 +126,4 @@ The script installs and configures:
 * **Email Server:** Configure in Nextcloud for notifications.
 * **Caching:** For improved performance (optional).
 
-Find more details in the [Interactive Guide](https://BastiZ0.github.io/NextCloud_Installer/index.html).
+Find more details in the [Interactive Guide](https://BastiZ0.github.io/NextCloud-Installer-Script/index.html).
