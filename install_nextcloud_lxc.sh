@@ -102,7 +102,7 @@ pve_check() {
 # SSH-Prüfung (Warnung, falls über SSH ausgeführt)
 ssh_check() {
   if [ -n "${SSH_CLIENT:+x}" ]; then
-    if ! whiptail --backtitle "Proxmox VE Helper Scripts" --defaultno --title "SSH ERKANNT" --yesno "Es wird empfohlen, die Proxmox-Shell anstelle von SSH zu verwenden, da SSH Probleme beim Sammeln von Variablen verursachen kann. Möchten Sie trotzdem fortfahren?" 10 62; then
+    if ! whiptail --backtitle "Bastis Proxmox Help Script" --defaultno --title "SSH ERKANNT" --yesno "Es wird empfohlen, die Proxmox-Shell anstelle von SSH zu verwenden, da SSH Probleme beim Sammeln von Variablen verursachen kann. Möchten Sie trotzdem fortfahren?" 10 62; then
       clear
       echo -e "${CROSS}${RD}Benutzer hat Skript beendet.${CL}\n"
       exit 0
@@ -119,7 +119,7 @@ main() {
   clear
   echo -e "${BOLD}${GN}--- Nextcloud LXC-Container Erstellung ---${CL}\n"
   echo "Dieses Skript erstellt einen neuen LXC-Container und installiert Nextcloud darin."
-  if ! whiptail --backtitle "Proxmox VE Helper Scripts" --title "Nextcloud LXC" --yesno "Möchten Sie fortfahren?" 10 58; then
+  if ! whiptail --backtitle "Bastis Proxmox Help Script" --title "Nextcloud LXC" --yesno "Möchten Sie fortfahren?" 10 58; then
     echo -e "${CROSS}${RD}Benutzer hat Skript beendet.${CL}\n"
     exit 0
   fi
@@ -134,23 +134,23 @@ main() {
   OS_TEMPLATE="ubuntu-24.04-standard" # Standard-Template
 
   # --- LXC Konfigurationsabfragen ---
-  if ! VMID=$(whiptail --backtitle "Nextcloud LXC Konfiguration" --inputbox "Container ID festlegen:" 8 58 "$VMID" --title "LXC ID" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
+  if ! VMID=$(whiptail --backtitle "Bastis Proxmox Help Script" --inputbox "Container ID festlegen:" 8 58 "$VMID" --title "LXC ID" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
   if pct status "$VMID" &>/dev/null || qm status "$VMID" &>/dev/null; then
       echo -e "${CROSS}${RD} ID $VMID ist bereits in Verwendung. Bitte wähle eine andere ID.${CL}"
       exit 1
   fi
   echo -e "${CONTAINERID}${BOLD}${GN}Container ID: ${BL}${VMID}${CL}"
 
-  if ! HOSTNAME=$(whiptail --backtitle "Nextcloud LXC Konfiguration" --inputbox "Hostname festlegen:" 8 58 "$HOSTNAME" --title "HOSTNAME" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
+  if ! HOSTNAME=$(whiptail --backtitle "Bastis Proxmox Help Script" --inputbox "Hostname festlegen:" 8 58 "$HOSTNAME" --title "HOSTNAME" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
   echo -e "${HOSTNAME}${BOLD}${GN}Hostname: ${BL}${HOSTNAME}${CL}"
 
-  if ! CPU_CORES=$(whiptail --backtitle "Nextcloud LXC Konfiguration" --inputbox "Anzahl der CPU-Kerne zuweisen:" 8 58 "$CPU_CORES" --title "CPU-KERNE" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
+  if ! CPU_CORES=$(whiptail --backtitle "Bastis Proxmox Help Script" --inputbox "Anzahl der CPU-Kerne zuweisen:" 8 58 "$CPU_CORES" --title "CPU-KERNE" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
   echo -e "${CPUCORE}${BOLD}${GN}CPU-Kerne: ${BL}${CPU_CORES}${CL}"
 
-  if ! RAM_SIZE=$(whiptail --backtitle "Nextcloud LXC Konfiguration" --inputbox "RAM in MiB zuweisen:" 8 58 "$RAM_SIZE" --title "RAM" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
+  if ! RAM_SIZE=$(whiptail --backtitle "Bastis Proxmox Help Script" --inputbox "RAM in MiB zuweisen:" 8 58 "$RAM_SIZE" --title "RAM" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
   echo -e "${RAMSIZE}${BOLD}${GN}RAM (MiB): ${BL}${RAM_SIZE}${CL}"
 
-  if ! DISK_SIZE=$(whiptail --backtitle "Nextcloud LXC Konfiguration" --inputbox "Festplattengröße in GiB zuweisen:" 8 58 "$DISK_SIZE" --title "DISK-GRÖSSE" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
+  if ! DISK_SIZE=$(whiptail --backtitle "Bastis Proxmox Help Script" --inputbox "Festplattengröße in GiB zuweisen:" 8 58 "$DISK_SIZE" --title "DISK-GRÖSSE" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
   echo -e "${DISKSIZE}${BOLD}${GN}Festplattengröße (GiB): ${BL}${DISK_SIZE}${CL}"
 
   # Bridge-Auswahl
@@ -170,7 +170,7 @@ main() {
     BRIDGE=${BRIDGE_MENU[0]}
     echo -e "${BRIDGE}${BOLD}${GN}Bridge: ${BL}$BRIDGE${CL}"
   else
-    if ! BRIDGE=$(whiptail --backtitle "Proxmox VE Helper Scripts" --title "BRIDGE AUSWÄHLEN" --radiolist "Welche Bridge soll für den LXC verwendet werden?" 10 58 3 "${BRIDGE_MENU[@]}" 3>&1 1>&2 2>&3); then
+    if ! BRIDGE=$(whiptail --backtitle "Bastis Proxmox Help Script" --title "BRIDGE AUSWÄHLEN" --radiolist "Welche Bridge soll für den LXC verwendet werden?" 10 58 3 "${BRIDGE_MENU[@]}" 3>&1 1>&2 2>&3); then
       echo -e "${CROSS}${RD}Benutzer hat Skript beendet.${CL}\n"
       exit 0
     fi
@@ -185,37 +185,37 @@ main() {
     "debian-12-standard" "Debian 12 (Bookworm)" OFF
     "debian-11-standard" "Debian 11 (Bullseye)" OFF
   )
-  if ! OS_TEMPLATE=$(whiptail --backtitle "Nextcloud LXC Konfiguration" --title "BETRIEBSSYSTEM-TEMPLATE" --radiolist "Wähle ein OS-Template für den Container:" 14 58 5 "${OS_MENU[@]}" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
+  if ! OS_TEMPLATE=$(whiptail --backtitle "Bastis Proxmox Help Script" --title "BETRIEBSSYSTEM-TEMPLATE" --radiolist "Wähle ein OS-Template für den Container:" 14 58 5 "${OS_MENU[@]}" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
   echo -e "${OS}${BOLD}${GN}OS-Template: ${BL}${OS_TEMPLATE}${CL}"
 
 
   # --- Nextcloud Konfigurationsabfragen ---
   echo -e "\n${BOLD}${GN}--- Nextcloud-Anwendungs-Einstellungen ---${CL}\n"
 
-  if ! NEXTCLOUD_DOMAIN=$(whiptail --backtitle "Nextcloud Einstellungen" --inputbox "Domain / Hostname (z.B. nextcloud.local oder IP-Adresse):" 8 58 "nextcloud.local" --title "NEXTCLOUD DOMAIN/IP" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
+  if ! NEXTCLOUD_DOMAIN=$(whiptail --backtitle "Bastis Proxmox Help Script" --inputbox "Domain / Hostname (z.B. nextcloud.local oder IP-Adresse):" 8 58 "nextcloud.local" --title "NEXTCLOUD DOMAIN/IP" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
   echo -e "${DEFAULT}${BOLD}${GN}Nextcloud Domain/IP: ${BL}${NEXTCLOUD_DOMAIN}${CL}"
 
-  if ! DB_NAME=$(whiptail --backtitle "Nextcloud Einstellungen" --inputbox "Datenbank-Name (Standard: nextcloud):" 8 58 "nextcloud" --title "DATENBANK-NAME" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
+  if ! DB_NAME=$(whiptail --backtitle "Bastis Proxmox Help Script" --inputbox "Datenbank-Name (Standard: nextcloud):" 8 58 "nextcloud" --title "DATENBANK-NAME" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
   echo -e "${DEFAULT}${BOLD}${GN}Datenbank-Name: ${BL}${DB_NAME}${CL}"
 
-  if ! DB_USER=$(whiptail --backtitle "Nextcloud Einstellungen" --inputbox "Datenbank-Benutzer (Standard: nextcloud_user):" 8 58 "nextcloud_user" --title "DATENBANK-BENUTZER" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; CURR_DB_USER="nextcloud_user"; fi
+  if ! DB_USER=$(whiptail --backtitle "Bastis Proxmox Help Script" --inputbox "Datenbank-Benutzer (Standard: nextcloud_user):" 8 58 "nextcloud_user" --title "DATENBANK-BENUTZER" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; CURR_DB_USER="nextcloud_user"; fi
   echo -e "${DEFAULT}${BOLD}${GN}Datenbank-Benutzer: ${BL}${DB_USER}${CL}"
 
-  if ! DB_PASSWORD=$(whiptail --backtitle "Nextcloud Einstellungen" --passwordbox "Datenbank-Passwort eingeben:" 8 58 --title "DATENBANK-PASSWORT" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
+  if ! DB_PASSWORD=$(whiptail --backtitle "Bastis Proxmox Help Script" --passwordbox "Datenbank-Passwort eingeben:" 8 58 --title "DATENBANK-PASSWORT" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
   echo -e "${DEFAULT}${BOLD}${GN}Datenbank-Passwort: ${BL}********${CL}"
 
-  if ! NC_ADMIN_USER=$(whiptail --backtitle "Nextcloud Einstellungen" --inputbox "Nextcloud Admin-Benutzer (Standard: admin):" 8 58 "admin" --title "NEXTCLOUD ADMIN-BENUTZER" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
+  if ! NC_ADMIN_USER=$(whiptail --backtitle "Bastis Proxmox Help Script" --inputbox "Nextcloud Admin-Benutzer (Standard: admin):" 8 58 "admin" --title "NEXTCLOUD ADMIN-BENUTZER" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
   echo -e "${DEFAULT}${BOLD}${GN}Nextcloud Admin-Benutzer: ${BL}${NC_ADMIN_USER}${CL}"
 
-  if ! NC_ADMIN_PASSWORD=$(whiptail --backtitle "Nextcloud Einstellungen" --passwordbox "Nextcloud Admin-Passwort eingeben:" 8 58 --title "NEXTCLOUD ADMIN-PASSWORT" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
+  if ! NC_ADMIN_PASSWORD=$(whiptail --backtitle "Bastis Proxmox Help Script" --passwordbox "Nextcloud Admin-Passwort eingeben:" 8 58 --title "NEXTCLOUD ADMIN-PASSWORT" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
   echo -e "${DEFAULT}${BOLD}${GN}Nextcloud Admin-Passwort: ${BL}********${CL}"
 
-  if ! DEFAULT_PHONE_REGION=$(whiptail --backtitle "Nextcloud Einstellungen" --inputbox "Standard-Telefonregion (z.B. DE für Deutschland):" 8 58 "DE" --title "TELEFONREGION" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
+  if ! DEFAULT_PHONE_REGION=$(whiptail --backtitle "Bastis Proxmox Help Script" --inputbox "Standard-Telefonregion (z.B. DE für Deutschland):" 8 58 "DE" --title "TELEFONREGION" --cancel-button "Abbrechen" 3>&1 1>&2 2>&3); then exit 1; fi
   echo -e "${DEFAULT}${BOLD}${GN}Standard-Telefonregion: ${BL}${DEFAULT_PHONE_REGION}${CL}"
 
   # Bestätigung vor der Erstellung
   echo -e "\n${CREATING}${BOLD}${GN}Erstelle Nextcloud LXC-Container mit den oben genannten Einstellungen...${CL}\n"
-  if ! whiptail --backtitle "Bestätigung" --title "Einstellungen überprüfen" --yesno "Sind die Einstellungen korrekt und möchten Sie fortfahren?" 10 58; then
+  if ! whiptail --backtitle "Bastis Proxmox Help Script" --title "Einstellungen überprüfen" --yesno "Sind die Einstellungen korrekt und möchten Sie fortfahren?" 10 58; then
     echo -e "${CROSS}${RD}Benutzer hat Skript beendet.${CL}\n"
     exit 0
   fi
@@ -250,7 +250,6 @@ main() {
 
   # Das Nextcloud Installationsskript (Teil 2) als String definieren
   # Alle Variablen aus den whiptail-Abfragen werden hier direkt eingefügt
-  # \\\\ ist nötig, um ein einzelnes \ im bash -c string zu escapen
   NEXTCLOUD_INSTALL_SCRIPT=$(cat <<'EOF'
 #!/bin/bash
 
@@ -283,7 +282,6 @@ echo "\${GREEN}=== SCHRITT 1: SYSTEM AKTUALISIEREN & PAKETE INSTALLIEREN ===\${N
 echo ""
 echo "Dies kann einige Minuten dauern. Es werden Apache, MariaDB, PHP und deren Module installiert."
 echo ""
-# read -p "Drücke Enter, um fortzufahren..." # Entfernt für automatische Ausführung
 apt-get update -y
 apt-get upgrade -y
 apt-get install -y ncurses-bin lsb-release # Sicherstellen, dass diese da sind
@@ -295,7 +293,6 @@ echo "\${GREEN}=== SCHRITT 2: MARIADB-REPOSITORY HINZUFÜGEN & SERVER INSTALLIER
 echo ""
 echo "Dadurch wird die neueste Version von MariaDB bezogen, und die Repository-URL wird automatisch an Ihre Distribution angepasst."
 echo ""
-# read -p "Drücke Enter, um fortzufahren..."
 DISTRO_CODENAME=\$(lsb_release -cs)
 DISTRO_ID=\$(lsb_release -is | tr '[:upper:]' '[:lower:]')
 
@@ -314,7 +311,6 @@ echo "\${GREEN}=== SCHRITT 3: NEXTCLOUD-PAKETE & PHP-MODULE INSTALLIEREN ===\${N
 echo ""
 echo "Dazu gehören die PHP-Module, die Nextcloud benötigt."
 echo ""
-# read -p "Drücke Enter, um fortzufahren..."
 apt-get install -y apache2 libapache2-mod-php php-gd php-curl php-zip php-xml php-mbstring php-imagick php-gmp php-bcmath php-intl php-ldap php-apcu php-mysql php-cli php-fpm unzip librsvg2-bin libmagickwand-dev
 echo ""
 
@@ -324,7 +320,6 @@ echo "\${GREEN}=== SCHRITT 4: PHP-KONFIGURATION ANPASSEN ===\${NC}"
 echo ""
 echo "Hier wird das Speicherlimit erhöht und der OPcache für eine bessere Performance optimiert."
 echo ""
-# read -p "Drücke Enter, um fortzufahren..."
 PHP_VERSION=\$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
 PHP_INI_PATH="/etc/php/\${PHP_VERSION}/apache2/php.ini"
 
@@ -342,7 +337,6 @@ echo "\${GREEN}=== SCHRITT 5: APACHE KONFIGURIEREN ===\${NC}"
 echo ""
 echo "Hier werden die benötigten Module aktiviert und der Webserver neu gestartet."
 echo ""
-# read -p "Drücke Enter, um fortzufahren..."
 a2enmod rewrite dir headers env mime
 systemctl restart apache2
 echo ""
@@ -353,7 +347,6 @@ echo "\${GREEN}=== SCHRITT 6: DATENBANK KONFIGURIEREN ===\${NC}"
 echo ""
 echo "Eine neue Datenbank und ein Benutzer werden mit den von dir eingegebenen Daten erstellt."
 echo ""
-# read -p "Drücke Enter, um fortzufahren..."
 mariadb -u root <<MYSQL_SCRIPT
 CREATE DATABASE IF NOT EXISTS \`\${DB_NAME}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 CREATE USER IF NOT EXISTS '\${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASSWORD}';
@@ -368,7 +361,6 @@ echo "\${GREEN}=== SCHRITT 7: NEXTCLOUD HERUNTERLADEN & ENTPACKEN ===\${NC}"
 echo ""
 echo "Die neueste Nextcloud-Version wird aus dem Internet heruntergeladen und im Webverzeichnis entpackt."
 echo ""
-# read -p "Drücke Enter, um fortzufahren..."
 wget https://download.nextcloud.com/server/releases/latest.zip
 unzip latest.zip
 mv nextcloud /var/www/html/
@@ -383,7 +375,6 @@ echo "\${GREEN}=== SCHRITT 8: APACHE VIRTUAL HOST ERSTELLEN & KONFIGURIEREN ===\
 echo ""
 echo "Hier wird eine neue Apache-Konfiguration erstellt und aktiviert."
 echo ""
-# read -p "Drücke Enter, um fortzufahren..."
 cat > /etc/apache2/sites-available/nextcloud.conf <<EOF
 <VirtualHost *:80>
    ServerName \${NEXTCLOUD_DOMAIN}
@@ -419,7 +410,6 @@ echo "\${GREEN}=== SCHRITT 9: NEXTCLOUD ÜBER DIE KOMMANDOZEILE INSTALLIEREN & K
 echo ""
 echo "Dieser letzte Schritt verbindet die Anwendung mit der Datenbank und schließt die Installation ab."
 echo ""
-# read -p "Drücke Enter, um fortzufahren..."
 sudo -u www-data php /var/www/html/nextcloud/occ maintenance:install \\
 --database "mysql" \\
 --database-name="\${DB_NAME}" \\
@@ -436,7 +426,6 @@ echo "\${GREEN}=== SCHRITT 10: ZUSÄTZLICHE KONFIGURATIONEN & REPARATUREN DURCHF
 echo ""
 echo "Es werden letzte Optimierungen und Reparaturen vorgenommen, um die verbleibenden Warnungen zu beheben."
 echo ""
-# read -p "Drücke Enter, um fortzufahren..."
 sudo -u www-data php /var/www/html/nextcloud/occ config:system:set trusted_domains 1 --value="\${NEXTCLOUD_DOMAIN}"
 sudo -u www-data php /var/www/html/nextcloud/occ config:system:set default_phone_region --value="\${DEFAULT_PHONE_REGION}"
 sudo -u www-data php /var/www/html/nextcloud/occ config:system:set maintenance_window_start --value="1" # Startet Wartung um 1 Uhr morgens
