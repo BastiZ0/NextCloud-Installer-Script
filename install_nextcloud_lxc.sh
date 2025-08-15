@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Setzt die TERM-Variable, um die Kompatibilität mit whiptail zu verbessern
+export TERM=xterm
+
 # --- Proxmox Helper Skript für Nextcloud ---
 # Erstellt einen neuen LXC-Container und installiert Nextcloud darin.
 
