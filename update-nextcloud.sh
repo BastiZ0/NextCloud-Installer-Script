@@ -15,7 +15,6 @@ fi
 # --- Konfiguration ---
 NEXTCLOUD_PATH="/var/www/html/nextcloud"
 BACKUP_BASE_DIR="/var/www/html"
-# API-URL, um die neueste Hauptversion zu finden
 RELEASES_URL="https://updates.nextcloud.com/updater_server/releases/"
 
 echo ""
@@ -58,11 +57,9 @@ while true; do
     NEXT_MAJOR_VERSION=$((CURRENT_MAJOR_VERSION + 1))
     
     if [ "$NEXT_MAJOR_VERSION" -ge "$LATEST_MAJOR_VERSION" ]; then
-        # Wenn die nächste Version die neueste ist, verwende latest.zip
         NEXT_DOWNLOAD_URL="https://download.nextcloud.com/server/releases/latest.zip"
         VERSION_TO_UPGRADE_TO="Latest"
     else
-        # Andernfalls verwende den latest-Versions-Link
         NEXT_DOWNLOAD_URL="https://download.nextcloud.com/server/releases/latest-${NEXT_MAJOR_VERSION}.zip"
         VERSION_TO_UPGRADE_TO="${NEXT_MAJOR_VERSION}"
     fi
@@ -107,12 +104,19 @@ while true; do
         exit 1
     fi
     echo "${GREEN}Upgrade auf ${VERSION_TO_UPGRADE_TO} erfolgreich abgeschlossen!${NC}"
+    
+    # --- Interaktiver Teil: Bestätigung ---
+    echo ""
+    echo "${YELLOW}Das Upgrade auf Nextcloud ${VERSION_TO_UPGRADE_TO} wurde abgeschlossen.${NC}"
+    echo "Bitte logge dich jetzt in deine Nextcloud-Instanz ein und prüfe, ob alles wie erwartet funktioniert."
+    read -p "Drücke Enter, um den Wartungsmodus zu deaktivieren und fortzufahren..."
+    
+    # Wartungsmodus deaktivieren
+    su -s /bin/bash -c "php ${NEXTCLOUD_PATH}/occ maintenance:mode --off" www-data
+    echo "${GREEN}Wartungsmodus deaktiviert. Nextcloud ist wieder online.${NC}"
 done
 
-# --- Finalisierung ---
-su -s /bin/bash -c "php ${NEXTCLOUD_PATH}/occ maintenance:mode --off" www-data
-echo "${GREEN}Nextcloud ist wieder online!${NC}"
 echo ""
-echo "${GREEN}--- Update-Vorgang abgeschlossen! ---${NC}"
+echo "${GREEN}--- Finalisierung abgeschlossen! ---${NC}"
 echo "Deine Nextcloud-Instanz ist jetzt auf der neuesten Version (${LATEST_VERSION_STRING})."
 echo ""
